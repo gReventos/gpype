@@ -32,7 +32,6 @@ if __name__ == '__main__':
 
     p.connect(source, filter)
     p.connect(filter, scope)
-    p.connect(filter, scope)
     p.connect(filter, sink)
 
     # add widgets

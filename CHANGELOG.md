@@ -1,5 +1,11 @@
 ## Changelog
 
+### [2.1.4] - 2025-06-11
+- Updated YML workflows
+
+### [2.1.3] - 2025-06-10
+- Cleanup
+
 ### [2.1.2] - 2025-05-05
 - Added support for Python 3.8-3.13
 - Added support for macOS
