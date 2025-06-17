@@ -1,0 +1,4 @@
+NotchFilter
+=========
+
+.. autoclass:: gpype.NotchFilter

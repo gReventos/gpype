@@ -1,0 +1,8 @@
+Misc
+======
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents
+
+   sq_estimator

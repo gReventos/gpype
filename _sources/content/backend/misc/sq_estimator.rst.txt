@@ -1,0 +1,5 @@
+SQEstimator
+=========
+
+.. autoclass:: gpype.SQEstimator
+   

@@ -1,0 +1,278 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gpype.frontend.widgets.impedance_chart &mdash; g.Pype v2.1.5  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            g.Pype v2.1.5
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/backend/index.html">Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/frontend/index.html">Frontent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/examples/index.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">g.Pype v2.1.5</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">gpype.frontend.widgets.impedance_chart</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for gpype.frontend.widgets.impedance_chart</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">!=</span> <span class="s2">&quot;win32&quot;</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;This module is only supported on Windows.&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">PySide6.QtWidgets</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">QLabel</span><span class="p">,</span> <span class="n">QTableWidget</span><span class="p">,</span> <span class="n">QTableWidgetItem</span><span class="p">,</span> <span class="n">QHeaderView</span><span class="p">,</span> <span class="n">QWidget</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PySide6.QtGui</span><span class="w"> </span><span class="kn">import</span> <span class="n">QPalette</span><span class="p">,</span> <span class="n">QFont</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base.widget</span><span class="w"> </span><span class="kn">import</span> <span class="n">Widget</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">...backend.sources.g_nautilus</span><span class="w"> </span><span class="kn">import</span> <span class="n">GNautilus</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyqtgraph</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pg</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+
+<div class="viewcode-block" id="ImpedanceChart">
+<a class="viewcode-back" href="../../../../content/frontend/widgets/impedance_chart.html#gpype.ImpedanceChart">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImpedanceChart</span><span class="p">(</span><span class="n">Widget</span><span class="p">):</span>
+
+    <span class="n">_IMPEDANCE_RANGE_LOWER_LIMIT</span> <span class="o">=</span> <span class="mf">5e3</span>
+    <span class="n">_IMPEDANCE_RANGE_UPPER_LIMIT</span> <span class="o">=</span> <span class="mf">200e3</span>
+    <span class="n">_IMPEDANCE_HIGH</span> <span class="o">=</span> <span class="mf">210e3</span>
+    <span class="n">_IMPEDANCE_LOW</span> <span class="o">=</span> <span class="mf">5e3</span>
+    <span class="n">_IMPEDANCE_INVALID</span> <span class="o">=</span> <span class="mf">220e3</span>
+    <span class="n">_UPDATE_RATE</span> <span class="o">=</span> <span class="mf">1e-2</span>
+    <span class="n">_LABEL_HIGH</span> <span class="o">=</span> <span class="s2">&quot;OPEN&quot;</span>
+    <span class="n">_LABEL_LOW</span> <span class="o">=</span> <span class="s2">&quot;LOW&quot;</span>
+    <span class="n">_LABEL_INVALID</span> <span class="o">=</span> <span class="s2">&quot;INVALID&quot;</span>
+    <span class="n">_MAPPING</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="o">-</span><span class="mi">1</span><span class="p">:</span> <span class="n">_IMPEDANCE_LOW</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">2</span><span class="p">:</span> <span class="n">_IMPEDANCE_LOW</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">3</span><span class="p">:</span> <span class="n">_IMPEDANCE_HIGH</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">4</span><span class="p">:</span> <span class="n">_IMPEDANCE_HIGH</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">5</span><span class="p">:</span> <span class="n">_IMPEDANCE_INVALID</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">6</span><span class="p">:</span> <span class="n">_IMPEDANCE_INVALID</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">7</span><span class="p">:</span> <span class="n">_IMPEDANCE_INVALID</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">8</span><span class="p">:</span> <span class="n">_IMPEDANCE_INVALID</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">9</span><span class="p">:</span> <span class="n">_IMPEDANCE_INVALID</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">10</span><span class="p">:</span> <span class="n">_IMPEDANCE_INVALID</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">11</span><span class="p">:</span> <span class="n">_IMPEDANCE_INVALID</span><span class="p">,</span>
+        <span class="o">-</span><span class="mi">12</span><span class="p">:</span> <span class="n">_IMPEDANCE_INVALID</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="n">_plot_item</span><span class="p">:</span> <span class="n">pg</span><span class="o">.</span><span class="n">PlotItem</span>
+    <span class="n">_last_plot_update</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">_last_impedance_update</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">_update_label</span><span class="p">:</span> <span class="n">pg</span><span class="o">.</span><span class="n">TextItem</span>
+
+<div class="viewcode-block" id="ImpedanceChart.__init__">
+<a class="viewcode-back" href="../../../../content/frontend/widgets/impedance_chart.html#gpype.ImpedanceChart.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amplifier</span><span class="p">:</span> <span class="n">GNautilus</span><span class="p">):</span>
+        <span class="n">widget</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">PlotWidget</span><span class="p">()</span>
+        <span class="n">widget</span><span class="o">.</span><span class="n">setBackground</span><span class="p">(</span><span class="n">widget</span><span class="o">.</span><span class="n">palette</span><span class="p">()</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">QPalette</span><span class="o">.</span><span class="n">Window</span><span class="p">))</span>
+        <span class="n">Widget</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="o">=</span><span class="n">QWidget</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Impedance Plot&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">getPlotItem</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">showGrid</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">getViewBox</span><span class="p">()</span><span class="o">.</span><span class="n">setMouseEnabled</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">setLabel</span><span class="p">(</span><span class="s1">&#39;bottom&#39;</span><span class="p">,</span> <span class="s1">&#39;Electrode Index&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">setLabel</span><span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;Impedance&#39;</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="s1">&#39;kΩ&#39;</span><span class="p">)</span>
+        <span class="n">ymax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_IMPEDANCE_INVALID</span> <span class="o">/</span> <span class="mf">1e3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">setYRange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_bar_graph</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_text_items</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_plot_update</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_impedance_update</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_label</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">amplifier</span><span class="o">.</span><span class="n">start_impedance_check</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_amplifier</span> <span class="o">=</span> <span class="n">amplifier</span></div>
+
+
+<div class="viewcode-block" id="ImpedanceChart.terminate">
+<a class="viewcode-back" href="../../../../content/frontend/widgets/impedance_chart.html#gpype.ImpedanceChart.terminate">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">terminate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_amplifier</span><span class="o">.</span><span class="n">stop_impedance_check</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="c1"># shorten notation</span>
+        <span class="n">Z_HI</span> <span class="o">=</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_IMPEDANCE_HIGH</span>
+        <span class="n">Z_LO</span> <span class="o">=</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_IMPEDANCE_LOW</span>
+        <span class="n">Z_INV</span> <span class="o">=</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_IMPEDANCE_INVALID</span>
+        <span class="n">Z_HI_LIM</span> <span class="o">=</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_IMPEDANCE_RANGE_UPPER_LIMIT</span>
+        <span class="n">Z_LO_LIM</span> <span class="o">=</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_IMPEDANCE_RANGE_LOWER_LIMIT</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_plot_update</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">t</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_plot_update</span> <span class="o">&lt;</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_UPDATE_RATE</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_last_plot_update</span> <span class="o">=</span> <span class="n">t</span>
+
+        <span class="c1"># Fetch data from amplifier</span>
+        <span class="n">z</span><span class="p">,</span> <span class="n">fresh</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_amplifier</span><span class="o">.</span><span class="n">get_impedance</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">fresh</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_last_impedance_update</span> <span class="o">=</span> <span class="n">t</span>
+        <span class="n">t_elapsed</span> <span class="o">=</span> <span class="n">t</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_impedance_update</span>
+
+        <span class="c1"># process values here</span>
+        <span class="n">z</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">z</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Z_INV</span>
+        <span class="n">z</span><span class="p">[(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">z</span> <span class="o">&lt;</span> <span class="n">Z_LO_LIM</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Z_LO</span>
+        <span class="n">z</span><span class="p">[(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="n">Z_HI_LIM</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">z</span> <span class="o">&lt;</span> <span class="n">Z_INV</span><span class="p">)]</span> <span class="o">=</span> <span class="n">Z_HI</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_MAPPING</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">z</span><span class="p">[</span><span class="n">z</span> <span class="o">==</span> <span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+
+        <span class="c1"># generate bar colors</span>
+        <span class="n">z_norm</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span> <span class="o">-</span> <span class="n">Z_LO</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">Z_HI</span> <span class="o">-</span> <span class="n">Z_LO</span><span class="p">)</span>
+        <span class="n">colors</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">z_norm</span><span class="o">.</span><span class="n">flatten</span><span class="p">():</span>  <span class="c1"># Flatten to ensure we have a 1D array</span>
+            <span class="n">col</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>  <span class="c1"># invalid impedance =&gt; black</span>
+            <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># low impedance =&gt; green</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">elif</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># interpolate from red (high) to green (low)</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">val</span><span class="p">)</span>
+                <span class="n">g</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">val</span><span class="p">))</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">)</span>
+            <span class="n">colors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">col</span><span class="p">)</span>
+
+        <span class="c1"># Create the bar graph</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bar_graph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bar_graph</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">BarGraphItem</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span>
+                                              <span class="n">height</span><span class="o">=</span><span class="n">z</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
+                                              <span class="n">width</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span>
+                                              <span class="n">brushes</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                                              <span class="n">pen</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_bar_graph</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_bar_graph</span><span class="o">.</span><span class="n">setOpts</span><span class="p">(</span><span class="n">height</span><span class="o">=</span><span class="n">z</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
+                                    <span class="n">brushes</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+
+        <span class="c1"># Remove previous labels</span>
+        <span class="k">for</span> <span class="n">text_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_text_items</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">removeItem</span><span class="p">(</span><span class="n">text_item</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_text_items</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="c1"># Add new labels</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">zi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">z</span><span class="p">):</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">zi</span> <span class="o">==</span> <span class="n">Z_HI</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_LABEL_HIGH</span>
+            <span class="k">elif</span> <span class="n">zi</span> <span class="o">==</span> <span class="n">Z_LO</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_LABEL_LOW</span>
+            <span class="k">elif</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">zi</span><span class="p">)</span> <span class="ow">or</span> <span class="n">zi</span> <span class="o">==</span> <span class="n">Z_INV</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">ImpedanceChart</span><span class="o">.</span><span class="n">_LABEL_INVALID</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">zi</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1e3</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2"> kΩ&quot;</span>
+            <span class="n">text_item</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">TextItem</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                                    <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="mi">32</span><span class="p">),</span>
+                                    <span class="n">anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">text_item</span><span class="o">.</span><span class="n">setPos</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="n">text_item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_text_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text_item</span><span class="p">)</span>
+
+        <span class="c1"># Update the update label</span>
+        <span class="n">update_text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Last update </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">t_elapsed</span><span class="p">)</span><span class="si">}</span><span class="s2"> s ago&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_label</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_label</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">TextItem</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">update_text</span><span class="p">,</span>
+                                             <span class="n">color</span><span class="o">=</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">),</span>
+                                             <span class="n">anchor</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_label</span><span class="o">.</span><span class="n">setPos</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">z</span><span class="p">)</span> <span class="o">+</span> <span class="mf">0.4</span><span class="p">,</span> <span class="n">Z_INV</span> <span class="o">/</span> <span class="mf">1e3</span> <span class="o">+</span> <span class="mi">20</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_plot_item</span><span class="o">.</span><span class="n">addItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_update_label</span><span class="p">)</span>
+            <span class="n">font</span> <span class="o">=</span> <span class="n">QFont</span><span class="p">()</span>
+            <span class="n">font</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_label</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_label</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="n">update_text</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright g.tec medical engineering GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

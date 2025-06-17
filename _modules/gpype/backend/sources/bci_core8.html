@@ -1,0 +1,180 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gpype.backend.sources.bci_core8 &mdash; g.Pype v2.1.5  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            g.Pype v2.1.5
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/backend/index.html">Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/frontend/index.html">Frontent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/examples/index.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">g.Pype v2.1.5</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">gpype.backend.sources.bci_core8</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for gpype.backend.sources.bci_core8</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.base.amplifier_source</span><span class="w"> </span><span class="kn">import</span> <span class="n">AmplifierSource</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">...common.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">Constants</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">gtec_ble</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ble</span>
+
+<span class="n">PORT_OUT</span> <span class="o">=</span> <span class="n">Constants</span><span class="o">.</span><span class="n">Defaults</span><span class="o">.</span><span class="n">PORT_OUT</span>
+<span class="n">PORT_IN</span> <span class="o">=</span> <span class="n">Constants</span><span class="o">.</span><span class="n">Defaults</span><span class="o">.</span><span class="n">PORT_IN</span>
+
+<span class="n">MAX_NUM_CHANNELS</span> <span class="o">=</span> <span class="mi">8</span>
+
+
+<div class="viewcode-block" id="BCICore8">
+<a class="viewcode-back" href="../../../../content/backend/sources/bci_core8.html#gpype.BCICore8">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BCICore8</span><span class="p">(</span><span class="n">AmplifierSource</span><span class="p">):</span>
+
+    <span class="n">FINGERPRINT</span> <span class="o">=</span> <span class="s2">&quot;f3f222dd8126b198c7f59fc1afd5e5d4&quot;</span>
+    <span class="n">SCANNING_TIMEOUT_S</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">SAMPLING_RATE</span> <span class="o">=</span> <span class="mi">250</span>
+
+    <span class="n">_device</span><span class="p">:</span> <span class="n">ble</span><span class="o">.</span><span class="n">Amplifier</span>
+    <span class="n">_target_sn</span><span class="p">:</span> <span class="nb">str</span>
+
+<div class="viewcode-block" id="BCICore8.__init__">
+<a class="viewcode-back" href="../../../../content/backend/sources/bci_core8.html#gpype.BCICore8.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">serial</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">channel_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="n">channel_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">channel_count</span> <span class="o">=</span> <span class="n">MAX_NUM_CHANNELS</span>
+        <span class="n">channel_count</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">channel_count</span><span class="p">,</span> <span class="n">MAX_NUM_CHANNELS</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_target_sn</span> <span class="o">=</span> <span class="n">serial</span>
+
+        <span class="c1"># Instantiate amplifier to get sampling_rate for super() call.</span>
+        <span class="c1"># Note: super().__init__ must be called before self._device is</span>
+        <span class="c1"># assigned, as the base class __init__ sets self._device to None.</span>
+        <span class="n">temp_device_for_sr</span> <span class="o">=</span> <span class="n">ble</span><span class="o">.</span><span class="n">Amplifier</span><span class="p">(</span><span class="n">serial</span><span class="o">=</span><span class="n">serial</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">channel_count</span><span class="o">=</span><span class="n">channel_count</span><span class="p">,</span>
+                         <span class="n">sampling_rate</span><span class="o">=</span><span class="n">temp_device_for_sr</span><span class="o">.</span><span class="n">sampling_rate</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Assign the amplifier instance to self._device and finish config.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device</span> <span class="o">=</span> <span class="n">temp_device_for_sr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="o">.</span><span class="n">set_data_callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data_callback</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BCICore8.start">
+<a class="viewcode-back" href="../../../../content/backend/sources/bci_core8.html#gpype.BCICore8.start">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BCICore8.stop">
+<a class="viewcode-back" href="../../../../content/backend/sources/bci_core8.html#gpype.BCICore8.stop">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_device</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_device</span></div>
+
+
+<div class="viewcode-block" id="BCICore8.step">
+<a class="viewcode-back" href="../../../../content/backend/sources/bci_core8.html#gpype.BCICore8.step">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>  <span class="c1"># noqa: E501</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">PORT_OUT</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="n">PORT_IN</span><span class="p">]}</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_data_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sender</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+        <span class="c1"># sender argument is ignored but present to match gtec_ble&#39;s call.</span>
+        <span class="n">cc_key</span> <span class="o">=</span> <span class="n">AmplifierSource</span><span class="o">.</span><span class="n">Configuration</span><span class="o">.</span><span class="n">Keys</span><span class="o">.</span><span class="n">CHANNEL_COUNT</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cycle</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="p">{</span><span class="n">Constants</span><span class="o">.</span><span class="n">Defaults</span><span class="o">.</span><span class="n">PORT_IN</span><span class="p">:</span>
+                         <span class="n">data</span><span class="o">.</span><span class="n">copy</span><span class="p">()[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">cc_key</span><span class="p">][</span><span class="mi">0</span><span class="p">]]})</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright g.tec medical engineering GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

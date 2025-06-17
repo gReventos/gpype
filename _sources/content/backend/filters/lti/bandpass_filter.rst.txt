@@ -1,0 +1,4 @@
+BandPassFilter
+==============
+
+.. autoclass:: gpype.BandPassFilter

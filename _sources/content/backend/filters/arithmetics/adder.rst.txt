@@ -1,0 +1,5 @@
+Adder
+=========
+
+.. autoclass:: gpype.Adder
+   

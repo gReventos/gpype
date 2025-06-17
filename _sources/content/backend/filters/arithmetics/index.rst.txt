@@ -1,0 +1,11 @@
+Arithmetics Filters
+===================
+
+.. toctree::
+   :maxdepth: 1
+   :caption: Contents
+
+   adder
+   comparator
+   multiplier
+   threshold

@@ -1,0 +1,292 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>gpype.backend.misc.sq_estimator &mdash; g.Pype v2.1.5  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            g.Pype v2.1.5
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/backend/index.html">Backend</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/frontend/index.html">Frontent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../content/examples/index.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">g.Pype v2.1.5</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">gpype.backend.misc.sq_estimator</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for gpype.backend.misc.sq_estimator</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..core.io_node</span><span class="w"> </span><span class="kn">import</span> <span class="n">IONode</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">...common.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">Constants</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">lfilter</span><span class="p">,</span> <span class="n">lfilter_zi</span>
+
+<span class="n">PORT_IN</span> <span class="o">=</span> <span class="n">Constants</span><span class="o">.</span><span class="n">Defaults</span><span class="o">.</span><span class="n">PORT_IN</span>
+<span class="n">PORT_OUT</span> <span class="o">=</span> <span class="n">Constants</span><span class="o">.</span><span class="n">Defaults</span><span class="o">.</span><span class="n">PORT_OUT</span>
+<span class="n">EPS</span> <span class="o">=</span> <span class="mf">1e-10</span>
+
+
+<div class="viewcode-block" id="SQEstimator">
+<a class="viewcode-back" href="../../../../content/backend/misc/sq_estimator.html#gpype.SQEstimator">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SQEstimator</span><span class="p">(</span><span class="n">IONode</span><span class="p">):</span>
+
+<div class="viewcode-block" id="SQEstimator.Configuration">
+<a class="viewcode-back" href="../../../../content/backend/misc/sq_estimator.html#gpype.SQEstimator.Configuration">[docs]</a>
+    <span class="k">class</span><span class="w"> </span><span class="nc">Configuration</span><span class="p">(</span><span class="n">IONode</span><span class="o">.</span><span class="n">Configuration</span><span class="p">):</span>
+<div class="viewcode-block" id="SQEstimator.Configuration.Keys">
+<a class="viewcode-back" href="../../../../content/backend/misc/sq_estimator.html#gpype.SQEstimator.Configuration.Keys">[docs]</a>
+        <span class="k">class</span><span class="w"> </span><span class="nc">Keys</span><span class="p">(</span><span class="n">IONode</span><span class="o">.</span><span class="n">Configuration</span><span class="o">.</span><span class="n">Keys</span><span class="p">):</span>
+            <span class="k">pass</span></div>
+</div>
+
+
+<div class="viewcode-block" id="SQEstimator.__init__">
+<a class="viewcode-back" href="../../../../content/backend/misc/sq_estimator.html#gpype.SQEstimator.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># Validate the coefficients</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialize filter state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a_buf</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b_buf</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a_hp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b_hp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a_low_bp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b_low_bp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Target signal quality values in dB for each frequency band:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_target_low_bp</span> <span class="o">=</span> <span class="mi">12</span>  <span class="c1"># Reference level for low-frequency band-pass (0.5-10Hz) # noqa: E501</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_target_hp</span> <span class="o">=</span> <span class="mi">8</span>       <span class="c1"># Reference level for high-pass (&gt;15Hz)</span>
+
+        <span class="c1"># Acceptable deviation margins in dB:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_margin_low_bp</span> <span class="o">=</span> <span class="mi">12</span>  <span class="c1"># Allowed deviation for low-frequency band</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_margin_hp</span> <span class="o">=</span> <span class="mi">12</span>      <span class="c1"># Allowed deviation for high-frequency band</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z_buf_hp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z_buf_low_bp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z_hp</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z_low_bp</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="SQEstimator.setup">
+<a class="viewcode-back" href="../../../../content/backend/misc/sq_estimator.html#gpype.SQEstimator.setup">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+              <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
+              <span class="n">port_metadata_in</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
+
+        <span class="c1"># Retrieve metadata and initialize the filter state</span>
+        <span class="n">md</span> <span class="o">=</span> <span class="n">port_metadata_in</span><span class="p">[</span><span class="n">PORT_IN</span><span class="p">]</span>
+        <span class="n">channel_count</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Constants</span><span class="o">.</span><span class="n">Keys</span><span class="o">.</span><span class="n">CHANNEL_COUNT</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">channel_count</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Channel count must be provided in metadata.&quot;</span><span class="p">)</span>
+
+        <span class="n">sampling_rate</span> <span class="o">=</span> <span class="n">md</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">Constants</span><span class="o">.</span><span class="n">Keys</span><span class="o">.</span><span class="n">SAMPLING_RATE</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sampling_rate</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Sampling rate must be provided in metadata.&quot;</span><span class="p">)</span>  <span class="c1"># noqa: E501</span>
+
+        <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">butter</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="n">f_lo1</span> <span class="o">=</span> <span class="mf">0.5</span>
+        <span class="n">f_lo2</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="n">f_hi</span> <span class="o">=</span> <span class="mi">15</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b_low_bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a_low_bp</span> <span class="o">=</span> <span class="n">butter</span><span class="p">(</span>
+            <span class="n">order</span><span class="p">,</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">f_lo1</span><span class="p">,</span> <span class="n">f_lo2</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">sampling_rate</span> <span class="o">/</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;bandpass&#39;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Low-pass filter</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b_hp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a_hp</span> <span class="o">=</span> <span class="n">butter</span><span class="p">(</span>
+            <span class="n">order</span><span class="p">,</span>
+            <span class="n">f_hi</span> <span class="o">/</span> <span class="n">sampling_rate</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">btype</span><span class="o">=</span><span class="s1">&#39;highpass&#39;</span>
+        <span class="p">)</span>
+
+        <span class="c1"># B = np.uint(np.round(sampling_rate / 2))</span>
+        <span class="c1"># self._b_buf_hp = [1 / B] * B</span>
+        <span class="c1"># self._a_buf_hp = [1]</span>
+        <span class="c1"># self._b_buf_lp = [1 / B] * B</span>
+        <span class="c1"># self._a_buf_lp = [1]</span>
+
+        <span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.985</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b_buf_hp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a_buf_hp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">alpha</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_b_buf_low_bp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">alpha</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_a_buf_low_bp</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">alpha</span><span class="p">]</span>
+
+        <span class="c1"># a = self.config[LTIFilter.Configuration.Keys.A]</span>
+
+        <span class="c1"># Ensure the coefficients are valid</span>
+        <span class="c1"># if len(a) &lt; 1 or a[0] == 0:</span>
+        <span class="c1">#     raise ValueError(&quot;Invalid &#39;a&#39; coefficients: first &quot;</span>
+        <span class="c1">#                      &quot;element must be non-zero.&quot;)</span>
+
+        <span class="c1"># Initialize filter state for each channel</span>
+        <span class="n">zi_buf_hp</span> <span class="o">=</span> <span class="n">lfilter_zi</span><span class="p">(</span>  <span class="c1"># Initial condition for the filter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_b_buf_hp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_a_buf_hp</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z_buf_hp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">zi_buf_hp</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">channel_count</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">zi_buf_low_bp</span> <span class="o">=</span> <span class="n">lfilter_zi</span><span class="p">(</span>  <span class="c1"># Initial condition for the filter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_b_buf_low_bp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_a_buf_low_bp</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z_buf_low_bp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">zi_buf_low_bp</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">channel_count</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">zi_hp</span> <span class="o">=</span> <span class="n">lfilter_zi</span><span class="p">(</span>  <span class="c1"># Initial condition for the filter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_b_hp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_a_hp</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z_hp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">zi_hp</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">channel_count</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">zi_low_bp</span> <span class="o">=</span> <span class="n">lfilter_zi</span><span class="p">(</span>  <span class="c1"># Initial condition for the filter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_b_low_bp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_a_low_bp</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_z_low_bp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">zi_low_bp</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">channel_count</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">T</span>
+
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">port_metadata_in</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SQEstimator.step">
+<a class="viewcode-back" href="../../../../content/backend/misc/sq_estimator.html#gpype.SQEstimator.step">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+             <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>  <span class="c1"># noqa: E501</span>
+        <span class="n">data_in</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">PORT_IN</span><span class="p">]</span>
+
+        <span class="c1"># Ensure input data is compatible</span>
+        <span class="k">if</span> <span class="n">data_in</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Input data must be a 2D array (channels x &quot;</span>
+                             <span class="s2">&quot;samples).&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Helper function to process each signal path</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">_process_path</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">b_buf</span><span class="p">,</span> <span class="n">a_buf</span><span class="p">,</span> <span class="n">z_buf</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">margin</span><span class="p">):</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">            Process a single signal path through filters and transformations.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+            <span class="c1"># Apply main filter</span>
+            <span class="n">x</span><span class="p">,</span> <span class="n">z_new</span> <span class="o">=</span> <span class="n">lfilter</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zi</span><span class="o">=</span><span class="n">z</span><span class="p">)</span>
+            <span class="c1"># Square the output</span>
+            <span class="n">x_squared</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="c1"># Apply buffer filter</span>
+            <span class="n">x_buf</span><span class="p">,</span> <span class="n">z_buf_new</span> <span class="o">=</span> <span class="n">lfilter</span><span class="p">(</span>
+                <span class="n">b_buf</span><span class="p">,</span> <span class="n">a_buf</span><span class="p">,</span> <span class="n">x_squared</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">zi</span><span class="o">=</span><span class="n">z_buf</span><span class="p">)</span>
+            <span class="c1"># Compute SQ value</span>
+            <span class="n">sq</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">x_buf</span> <span class="o">+</span> <span class="n">EPS</span><span class="p">)</span>
+            <span class="n">sq</span> <span class="o">=</span> <span class="p">(</span><span class="n">sq</span> <span class="o">-</span> <span class="n">target</span><span class="p">)</span> <span class="o">/</span> <span class="n">margin</span>
+            <span class="n">sq</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">sq</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">sq</span><span class="p">,</span> <span class="n">z_new</span><span class="p">,</span> <span class="n">z_buf_new</span>
+
+        <span class="c1"># Process high-pass path</span>
+        <span class="n">sq_hp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z_hp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z_buf_hp</span> <span class="o">=</span> <span class="n">_process_path</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_b_hp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a_hp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z_hp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_b_buf_hp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a_buf_hp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z_buf_hp</span><span class="p">,</span>
+            <span class="n">data_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_hp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_margin_hp</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Process low band-pass path</span>
+        <span class="n">sq_low_bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z_low_bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z_buf_low_bp</span> <span class="o">=</span> <span class="n">_process_path</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_b_low_bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a_low_bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z_low_bp</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_b_buf_low_bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_a_buf_low_bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_z_buf_low_bp</span><span class="p">,</span>
+            <span class="n">data_in</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_low_bp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_margin_low_bp</span>
+        <span class="p">)</span>
+
+        <span class="n">sq</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="n">sq_hp</span><span class="p">,</span> <span class="n">sq_low_bp</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="n">PORT_OUT</span><span class="p">:</span> <span class="n">sq</span><span class="p">}</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright g.tec medical engineering GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

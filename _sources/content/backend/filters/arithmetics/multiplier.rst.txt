@@ -1,0 +1,4 @@
+Multiplier
+==========
+
+.. autoclass:: gpype.Multiplier

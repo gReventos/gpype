@@ -1,0 +1,267 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comparator &mdash; g.Pype v2.1.5  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Multiplier" href="multiplier.html" />
+    <link rel="prev" title="Adder" href="adder.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            g.Pype v2.1.5
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Backend</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../core/index.html">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sources/index.html">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sinks/index.html">Sinks</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Filters</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Arithmetics Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../delay/index.html">Delay Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lti/index.html">LTI Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nonlinear/index.html">Nonlinear Filters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../routing/index.html">Router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../misc/index.html">Misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../frontend/index.html">Frontent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">g.Pype v2.1.5</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Backend</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Filters</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Arithmetics Filters</a></li>
+      <li class="breadcrumb-item active">Comparator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/content/backend/filters/arithmetics/comparator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="comparator">
+<h1>Comparator<a class="headerlink" href="#comparator" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.Comparator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gpype.</span></span><span class="sig-name descname"><span class="pre">Comparator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Operation.GreatEq</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/comparator.html#Comparator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Comparator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../core/io_node.html#gpype.IONode" title="gpype.backend.core.io_node.IONode"><code class="xref py py-class docutils literal notranslate"><span class="pre">IONode</span></code></a></p>
+<p>This class compares two input signals based on a specified operation.
+The result is a boolean array indicating the comparison result.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>operation</strong> (<a class="reference internal" href="#gpype.Comparator.Operation" title="gpype.Comparator.Operation"><em>Operation</em></a><em> | </em><em>str</em>)</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.Comparator.Configuration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_ports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimation_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/comparator.html#Comparator.Configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Comparator.Configuration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Configuration</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ports</strong> (<em>list</em>)</p></li>
+<li><p><strong>output_ports</strong> (<em>list</em>)</p></li>
+<li><p><strong>decimation_factor</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.Comparator.Configuration.Keys">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Keys</span></span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/comparator.html#Comparator.Configuration.Keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Comparator.Configuration.Keys" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Keys</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Comparator.Configuration.Keys.OPERATION">
+<span class="sig-name descname"><span class="pre">OPERATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'operation'</span></em><a class="headerlink" href="#gpype.Comparator.Configuration.Keys.OPERATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.Comparator.Operation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/comparator.html#Comparator.Operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Comparator.Operation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p>Enumeration of supported comparison operations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Comparator.Operation.Eq">
+<span class="sig-name descname"><span class="pre">Eq</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'EqualThan'</span></em><a class="headerlink" href="#gpype.Comparator.Operation.Eq" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Comparator.Operation.Great">
+<span class="sig-name descname"><span class="pre">Great</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'GreaterThan'</span></em><a class="headerlink" href="#gpype.Comparator.Operation.Great" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Comparator.Operation.GreatEq">
+<span class="sig-name descname"><span class="pre">GreatEq</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'GreaterOrEqualThan'</span></em><a class="headerlink" href="#gpype.Comparator.Operation.GreatEq" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Comparator.Operation.Low">
+<span class="sig-name descname"><span class="pre">Low</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LowerThan'</span></em><a class="headerlink" href="#gpype.Comparator.Operation.Low" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Comparator.Operation.LowEq">
+<span class="sig-name descname"><span class="pre">LowEq</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'LowerOrEqualThan'</span></em><a class="headerlink" href="#gpype.Comparator.Operation.LowEq" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Comparator.PORT_IN_1">
+<span class="sig-name descname"><span class="pre">PORT_IN_1</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'in1'</span></em><a class="headerlink" href="#gpype.Comparator.PORT_IN_1" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Comparator.PORT_IN_2">
+<span class="sig-name descname"><span class="pre">PORT_IN_2</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'in2'</span></em><a class="headerlink" href="#gpype.Comparator.PORT_IN_2" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.Comparator.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">operation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Operation.GreatEq</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/comparator.html#Comparator.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Comparator.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the Comparator with a specific comparison operation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>operation</strong> (<a class="reference internal" href="#gpype.Comparator.Operation" title="gpype.Comparator.Operation"><em>Operation</em></a><em> or </em><em>str</em>) – The comparison operation to perform (either enum member or
+string value).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.Comparator.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_metadata_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/comparator.html#Comparator.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Comparator.setup" title="Link to this definition"></a></dt>
+<dd><p>Standard implementation of the setup method. Only allowed for
+one input port. If subclasses have more than one input port, they
+must overload this method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>dict</em>) – A dictionary containing setup data.</p></li>
+<li><p><strong>port_metadata_in</strong> (<em>dict</em>) – A dictionary containing input port metadata.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing output port metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the number of input ports is not exactly one.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.Comparator.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/comparator.html#Comparator.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Comparator.step" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for the Node’s step function.</p>
+<p>This method should be implemented to define the processing logic for
+each step of the Node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The input data to process.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The processed data after applying the step logic.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="adder.html" class="btn btn-neutral float-left" title="Adder" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="multiplier.html" class="btn btn-neutral float-right" title="Multiplier" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright g.tec medical engineering GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

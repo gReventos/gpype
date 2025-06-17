@@ -1,0 +1,4 @@
+GNautilus
+========
+
+.. autoclass:: gpype.GNautilus

@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Time Series Scope &mdash; g.Pype v2.1.5  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Performance Monitor" href="performance_monitor.html" />
+    <link rel="prev" title="Impedance Chart" href="impedance_chart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            g.Pype v2.1.5
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backend/index.html">Backend</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Frontent</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Widgets</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="impedance_chart.html">Impedance Chart</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Time Series Scope</a></li>
+<li class="toctree-l3"><a class="reference internal" href="performance_monitor.html">Performance Monitor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="paradigm_presenter.html">Paradigm Presenter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../main_app.html">MainApp</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples/index.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">g.Pype v2.1.5</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Frontent</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Widgets</a></li>
+      <li class="breadcrumb-item active">Time Series Scope</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../_sources/content/frontend/widgets/time_series_scope.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="time-series-scope">
+<h1>Time Series Scope<a class="headerlink" href="#time-series-scope" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gpype.</span></span><span class="sig-name descname"><span class="pre">TimeSeriesScope</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/gpype/frontend/widgets/time_series_scope.html#TimeSeriesScope"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.TimeSeriesScope" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Scope</span></code></p>
+<p>Real-time time series visualization widget for multi-channel data.</p>
+<p>Displays streaming time series data in a scrolling plot with configurable
+time window and amplitude scaling. The scope shows a moving window of
+recent data with automatic scrolling as new samples arrive. Multiple
+channels are displayed with vertical offset for clarity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_window</strong> (<em>int</em><em>, </em><em>optional</em>) – Length of the time window to display in seconds. Must be between
+1 and 120 seconds. Defaults to 10 seconds.</p></li>
+<li><p><strong>amplitude_limit</strong> (<em>float</em><em>, </em><em>optional</em>) – Vertical scale limit for signal amplitude. Must be between 1 and
+5000. This sets the +/- range for signal display. Defaults to 50.</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create scope for EEG data (10-second window, ±100µV range)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">eeg_scope</span> <span class="o">=</span> <span class="n">TimeSeriesScope</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">time_window</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">amplitude_limit</span><span class="o">=</span><span class="mi">100</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Create scope for ECG data (5-second window, ±2mV range)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ecg_scope</span> <span class="o">=</span> <span class="n">TimeSeriesScope</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="n">time_window</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="n">amplitude_limit</span><span class="o">=</span><span class="mi">2000</span>
+<span class="gp">... </span><span class="p">)</span>
+</pre></div>
+</div>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li><p>Data scrolls continuously from right to left</p></li>
+<li><p>Each channel is displayed with vertical offset to prevent overlap</p></li>
+<li><p>A cursor indicates the current time position</p></li>
+<li><p>PAD_DURATION (0.1s) provides visual padding ahead of the cursor</p></li>
+<li><p>Performance optimized for real-time display of multiple channels</p></li>
+</ul>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope.Configuration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/gpype/frontend/widgets/time_series_scope.html#TimeSeriesScope.Configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.TimeSeriesScope.Configuration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Configuration</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_ports</strong> (<em>list</em>)</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope.Configuration.Keys">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Keys</span></span><a class="reference internal" href="../../../_modules/gpype/frontend/widgets/time_series_scope.html#TimeSeriesScope.Configuration.Keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.TimeSeriesScope.Configuration.Keys" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Keys</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope.Configuration.Keys.AMPLITUDE_LIMIT">
+<span class="sig-name descname"><span class="pre">AMPLITUDE_LIMIT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'amplitude_limit'</span></em><a class="headerlink" href="#gpype.TimeSeriesScope.Configuration.Keys.AMPLITUDE_LIMIT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope.Configuration.Keys.TIME_WINDOW">
+<span class="sig-name descname"><span class="pre">TIME_WINDOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'time_window'</span></em><a class="headerlink" href="#gpype.TimeSeriesScope.Configuration.Keys.TIME_WINDOW" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope.PAD_DURATION">
+<span class="sig-name descname"><span class="pre">PAD_DURATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0.1</span></em><a class="headerlink" href="#gpype.TimeSeriesScope.PAD_DURATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_window</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amplitude_limit</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/gpype/frontend/widgets/time_series_scope.html#TimeSeriesScope.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.TimeSeriesScope.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initializes the INode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ports</strong> (<em>list</em><em> of </em><a class="reference internal" href="../../backend/core/i_port.html#gpype.IPort.Configuration" title="gpype.IPort.Configuration"><em>IPort.Configuration</em></a><em>, </em><em>optional</em>) – A list of input port configurations (default is None).</p></li>
+<li><p><strong>**kwargs</strong> (<em>additional keyword arguments</em>) – Other configuration options.</p></li>
+<li><p><strong>time_window</strong> (<em>int</em>)</p></li>
+<li><p><strong>amplitude_limit</strong> (<em>float</em>)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_metadata_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/gpype/frontend/widgets/time_series_scope.html#TimeSeriesScope.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.TimeSeriesScope.setup" title="Link to this definition"></a></dt>
+<dd><p>Sets up the INode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>dict</em>) – A dictionary containing the data.</p></li>
+<li><p><strong>port_metadata_in</strong> (<em>dict</em>) – A dictionary containing port metadata.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An empty dictionary, because INode has no output ports.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.TimeSeriesScope.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/gpype/frontend/widgets/time_series_scope.html#TimeSeriesScope.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.TimeSeriesScope.step" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for the Node’s step function.</p>
+<p>This method should be implemented to define the processing logic for
+each step of the Node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The input data to process.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The processed data after applying the step logic.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="impedance_chart.html" class="btn btn-neutral float-left" title="Impedance Chart" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="performance_monitor.html" class="btn btn-neutral float-right" title="Performance Monitor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright g.tec medical engineering GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

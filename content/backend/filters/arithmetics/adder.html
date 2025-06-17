@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Adder &mdash; g.Pype v2.1.5  documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../../_static/documentation_options.js?v=5929fcd5"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Comparator" href="comparator.html" />
+    <link rel="prev" title="Arithmetics Filters" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../../index.html" class="icon icon-home">
+            g.Pype v2.1.5
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction/index.html">Introduction</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">Backend</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../core/index.html">Core</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sources/index.html">Sources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sinks/index.html">Sinks</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Filters</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Arithmetics Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../delay/index.html">Delay Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../lti/index.html">LTI Filters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../nonlinear/index.html">Nonlinear Filters</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../routing/index.html">Router</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../misc/index.html">Misc</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pipeline.html">Pipeline</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../frontend/index.html">Frontent</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples/index.html">Examples</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">g.Pype v2.1.5</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Backend</a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Filters</a></li>
+          <li class="breadcrumb-item"><a href="index.html">Arithmetics Filters</a></li>
+      <li class="breadcrumb-item active">Adder</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../../../_sources/content/backend/filters/arithmetics/adder.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="adder">
+<h1>Adder<a class="headerlink" href="#adder" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.Adder">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">gpype.</span></span><span class="sig-name descname"><span class="pre">Adder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Operation.ADD</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/adder.html#Adder"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Adder" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="../../core/io_node.html#gpype.IONode" title="gpype.backend.core.io_node.IONode"><code class="xref py py-class docutils literal notranslate"><span class="pre">IONode</span></code></a></p>
+<dl class="simple">
+<dt>This class performs addition or subtraction of</dt><dd><p>a constant to/from the input signal.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>constant</strong> (<em>float</em>)</p></li>
+<li><p><strong>operation</strong> (<a class="reference internal" href="#gpype.Adder.Operation" title="gpype.Adder.Operation"><em>Operation</em></a><em> | </em><em>str</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.Adder.Configuration">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_ports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_ports</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">decimation_factor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/adder.html#Adder.Configuration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Adder.Configuration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Configuration</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input_ports</strong> (<em>list</em>)</p></li>
+<li><p><strong>output_ports</strong> (<em>list</em>)</p></li>
+<li><p><strong>decimation_factor</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.Adder.Configuration.Keys">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Keys</span></span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/adder.html#Adder.Configuration.Keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Adder.Configuration.Keys" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Keys</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Adder.Configuration.Keys.CONSTANT">
+<span class="sig-name descname"><span class="pre">CONSTANT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'constant'</span></em><a class="headerlink" href="#gpype.Adder.Configuration.Keys.CONSTANT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Adder.Configuration.Keys.OPERATION">
+<span class="sig-name descname"><span class="pre">OPERATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'operation'</span></em><a class="headerlink" href="#gpype.Adder.Configuration.Keys.OPERATION" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="gpype.Adder.Operation">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Operation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/adder.html#Adder.Operation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Adder.Operation" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Adder.Operation.ADD">
+<span class="sig-name descname"><span class="pre">ADD</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Add'</span></em><a class="headerlink" href="#gpype.Adder.Operation.ADD" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="gpype.Adder.Operation.SUBSTRACT">
+<span class="sig-name descname"><span class="pre">SUBSTRACT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'Subtract'</span></em><a class="headerlink" href="#gpype.Adder.Operation.SUBSTRACT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.Adder.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">constant</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">operation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">Operation.ADD</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/adder.html#Adder.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Adder.__init__" title="Link to this definition"></a></dt>
+<dd><p>Initialize the AddFilter with the given parameters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>constant</strong> (<em>float</em><em>, </em><em>optional</em>) – Constant to add or subtract. Defaults to 0.0.</p></li>
+<li><p><strong>operation</strong> (<em>{'ADD'</em><em> or </em><em>'SUBSTRACT'}</em><em>, </em><em>optional</em>) – Operation type. Defaults to ‘add’.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments passed to the superclass.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.Adder.setup">
+<span class="sig-name descname"><span class="pre">setup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port_metadata_in</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/adder.html#Adder.setup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Adder.setup" title="Link to this definition"></a></dt>
+<dd><p>Standard implementation of the setup method. Only allowed for
+one input port. If subclasses have more than one input port, they
+must overload this method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>dict</em>) – A dictionary containing setup data.</p></li>
+<li><p><strong>port_metadata_in</strong> (<em>dict</em>) – A dictionary containing input port metadata.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary containing output port metadata.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If the number of input ports is not exactly one.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="gpype.Adder.step">
+<span class="sig-name descname"><span class="pre">step</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../../_modules/gpype/backend/filters/arithmetics/adder.html#Adder.step"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#gpype.Adder.step" title="Link to this definition"></a></dt>
+<dd><p>Abstract method for the Node’s step function.</p>
+<p>This method should be implemented to define the processing logic for
+each step of the Node.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – The input data to process.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The processed data after applying the step logic.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Arithmetics Filters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="comparator.html" class="btn btn-neutral float-right" title="Comparator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright g.tec medical engineering GmbH.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,4 @@
+HighPassFilter
+=========
+
+.. autoclass:: gpype.HighPassFilter
